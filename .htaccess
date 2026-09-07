@@ -1,0 +1,31 @@
+# cPanel / Passenger — serve static via Apache, let Passenger handle the app.
+# The RewriteBase must match the Application URL keu set in "Setup Python App".
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Uncomment and set when the app is mounted under a sub-directory:
+    # RewriteBase /nirmal-rugs/
+</IfModule>
+
+# Never serve source files or dotfiles。
+<FilesMatch "\.(py|pyc|env|ini|log|json|md|sqlite3?|lock)$">
+    Require all denied
+</FilesMatch>
+
+# Deny hidden dotfiles
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Optional browser caching for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/avif "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType application/font-woff2 "access plus 1 month"
+</IfModule>
